@@ -1,37 +1,59 @@
-import { View, Text, Image, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  SafeAreaView,
+  Pressable,
+} from "react-native";
 import React from "react";
 import { products } from "../data/products";
 import Header from "../components/Header";
+import { AntDesign } from "@expo/vector-icons";
+import { colors } from "../theme/colors";
 
-const ProductDetail = () => {
+const ProductDetail = ({ navigation, route }) => {
   const initialProd = products[1];
 
+  const { item } = route.params;
+
+  console.log(item);
+
   return (
-    <View>
-      <Header title="Detalle" />
+    <SafeAreaView>
+      <Header title="Detalle" navigation={navigation} />
+      <Pressable
+        style={{ marginLeft: 15, marginBottom: 10 }}
+        onPress={() => navigation.goBack()}
+      >
+        <AntDesign name="caretleft" size={24} color={colors.mediumBlue} />
+      </Pressable>
       <View style={styles.containerImage}>
         <Image
           style={styles.image}
           source={{
-            uri: initialProd.images[2],
+            uri: item.images[0],
           }}
         />
-        <Text style={styles.title}> Título: {initialProd.title} </Text>
-        <Text style={styles.description}>
-          {" "}
-          Descripcion: {initialProd.description}{" "}
-        </Text>
-        <Text> Rating: {initialProd.rating} </Text>
-        <Text> Precio: {initialProd.price} </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.title}> {item.title} </Text>
+          <Text style={styles.price}> ${item.price} </Text>
+        </View>
+        <Text style={styles.description}> {item.description} </Text>
+        <Button
+          color="red"
+          title="Agregar al carrito"
+          onPress={() => console.log("Hola funciona")}
+        />
+        <Text style={styles.description}> Rating: {item.rating} </Text>
       </View>
-
-      <View></View>
-      <Button
-        color="red"
-        title="Agregar al carrito"
-        onPress={() => console.log("Hola funciona")}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -44,12 +66,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 30,
-    fontFamily: "Pacifico",
+    fontSize: 40,
+    fontFamily: "Dancing",
+    marginTop: 15,
+  },
+  price: {
+    fontSize: 18,
+    fontFamily: "Dancing",
   },
   description: {
     fontSize: 20,
-    marginVertical: 15,
+    marginTop: 12,
+    marginBottom: 30,
+    marginHorizontal: 10,
   },
 });
 
