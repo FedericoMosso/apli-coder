@@ -3,22 +3,21 @@ import {
   Text,
   Image,
   StyleSheet,
-  Button,
   SafeAreaView,
   Pressable,
 } from "react-native";
 import React from "react";
-import { products } from "../data/products";
 import Header from "../components/Header";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../theme/colors";
+import { useSelector } from "react-redux";
 
 const ProductDetail = ({ navigation, route }) => {
-  const initialProd = products[1];
+  // const { item } = route.params;
 
-  const { item } = route.params;
-
-  console.log(item);
+  const productSelected = useSelector(
+    (state) => state.homeSlice.productSelected
+  );
 
   return (
     <SafeAreaView>
@@ -33,7 +32,7 @@ const ProductDetail = ({ navigation, route }) => {
         <Image
           style={styles.image}
           source={{
-            uri: item.images[0],
+            uri: productSelected.images[0],
           }}
         />
         <View
@@ -42,16 +41,14 @@ const ProductDetail = ({ navigation, route }) => {
             alignItems: "center",
           }}
         >
-          <Text style={styles.title}> {item.title} </Text>
-          <Text style={styles.price}> ${item.price} </Text>
+          <Text style={styles.title}> {productSelected.title} </Text>
+          <Text style={styles.price}> ${productSelected.price} </Text>
         </View>
-        <Text style={styles.description}> {item.description} </Text>
-        <Button
-          color="red"
-          title="Agregar al carrito"
-          onPress={() => console.log("Hola funciona")}
-        />
-        <Text style={styles.description}> Rating: {item.rating} </Text>
+        <Text style={styles.description}> {productSelected.description} </Text>
+        {/* <Pressable>
+          <Text style={styles.button}> Comprar</Text>
+        </Pressable> */}
+        <Text style={styles.description}>Rating: {productSelected.rating}</Text>
       </View>
     </SafeAreaView>
   );
